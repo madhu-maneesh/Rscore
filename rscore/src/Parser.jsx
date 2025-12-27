@@ -32,12 +32,14 @@ export default function Demo() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/upload", {
+     const API_URL = import.meta.env.VITE_API_URL;
+
+      const res = await fetch(`${API_URL}/upload`, {
         method: "POST",
         body: formData,
       });
-
-      if (!res.ok) throw new Error("Backend error");
+        
+  if (!res.ok) throw new Error("Backend error");
 
       const data = await res.json();
       setResult(data);

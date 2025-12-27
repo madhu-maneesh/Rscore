@@ -8,8 +8,9 @@ import mammoth from "mammoth";
 
 // CHECK
 if (!process.env.OPENROUTER_API_KEY) {
-  return res.status(500).json({ error: "AI service not configured" });
+  console.error("OPENROUTER_API_KEY is missing");
 }
+
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
@@ -113,6 +114,9 @@ app.get("/",(req,res)=>{
 });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
+  if (!process.env.OPENROUTER_API_KEY) {
+    return res.status(500).json({ error: "AI service not configured" });
+  }
   try {
     const file = req.file;
     const jd = req.body.text;

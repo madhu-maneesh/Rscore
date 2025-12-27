@@ -8,7 +8,7 @@ import mammoth from "mammoth";
 
 // CHECK
 if (!process.env.OPENROUTER_API_KEY) {
-  throw new Error("OPENROUTER_API_KEY is missing in .env");
+  return res.status(500).json({ error: "AI service not configured" });
 }
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
@@ -18,6 +18,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+if (!fs.existsSync("uploads")) {
+  fs.mkdirSync("uploads");
+}
+
 const upload = multer({ dest: "uploads/" });
 
 //promt for the model

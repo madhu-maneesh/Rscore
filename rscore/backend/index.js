@@ -16,6 +16,8 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const upload = multer({ dest: "uploads/" });
 
 //promt for the model
@@ -101,6 +103,10 @@ function extractJSON(text) {
 
 // /upload
 
+app.get("/",(req,res)=>{
+  res.status(200).send("Rscore backend is working");
+});
+
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
     const file = req.file;
@@ -171,6 +177,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 // backend server
 
-app.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
